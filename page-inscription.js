@@ -18,7 +18,7 @@ document.querySelector('form').addEventListener('submit', async function(e) {
 
         const result = await response.json();
         alert(result.message || result.error);
-        
+
     } catch (err) {
         console.error('Error:', err);
         alert('An error occurred. Please try again.');
