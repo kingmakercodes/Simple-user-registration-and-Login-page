@@ -2,7 +2,7 @@ document.querySelector('form').addEventListener('submit', async function(e) {
     e.preventDefault();  // Prevent form submission
 
     const formData = {
-        fname: document.querySelector('input[name="fname"]').value,
+        fullname: document.querySelector('input[name="fullname"]').value,
         email: document.querySelector('input[name="email"]').value,
         password: document.querySelector('input[name="password"]').value
     };
