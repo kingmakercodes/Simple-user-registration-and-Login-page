@@ -4,66 +4,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign up Page</title>
+    <title>Authentication Page</title>
     <link rel="stylesheet" href="signup.css">
 </head>
 
 <body>
-    <div class="split-screen">
-        <div class="left">
-            <section class="copy">
-                <h1>Everything your home needs.</h1>
-                <p>Be it aesthetics or domestic needs, you'll find here whatever you're looking for your home.</p>
-            </section>
-        </div>
-
-        <div class="right">
-            <form id="form_id">
-                <section class="copy">
-                    <h2>Sign Up</h2>
-                </section>
-
-                <div class="name-input-container">
-                    <label id="name">Name and Surname
-                        <input id="fullname" name="fullname">
-                    </label>
-                </div>
-
-                <div class="email-input-container">
-                    <label id="email">Email
-                        <input type="email" name="email">
-                    </label>
-                </div>
-
-                <div class="password-input-container">
-                    <label id="password">Password
-                        <input type="password" name="password" aut>
-                    </label>
-                </div>
-
-                <div class="input-container-cta">
-                    <label class="checkbox-container" id="checkbox-container">
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
-                        Sign me up for email updates
-                    </label>
-                </div>
-
-                <button class="signup-btn" type="submit">Sign up</button>
-                <section class="copy-legal">
-                    <p><span class="small">By clicking "Sign Up" you accept our <a href="#">Terms and Conditions of Use.</a></span></p>
-                </section>
-
-                <br>
-
-                <div class="signup-container">
-                    <p>Already have an account? <a href="#">Sign in to your account</a></p>
-                </div>
-
-            </form>
-        </div>
+<div class="split-screen">
+    <div class="left">
+        <section class="copy">
+            <h1>Everything your home needs.</h1>
+            <p>Be it aesthetics or domestic needs, you'll find here whatever you're looking for your home.</p>
+        </section>
     </div>
-</body>
 
-<script src="signup.js"></script>
+    <div class="right">
+        <!-- Sign Up Form -->
+        <form id="signup-form">
+            <section class="copy">
+                <h2>Sign Up</h2>
+            </section>
+
+            <div class="name-input-container">
+                <label>Name and Surname
+                    <input id="fullname" name="fullname">
+                </label>
+            </div>
+
+            <div class="email-input-container">
+                <label>Email
+                    <input type="email" name="email">
+                </label>
+            </div>
+
+            <div class="password-input-container">
+                <label>Password
+                    <input type="password" name="password">
+                </label>
+            </div>
+
+            <div class="input-container-cta">
+                <label class="checkbox-container">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                    Sign me up for email updates
+                </label>
+            </div>
+
+            <button class="auth-btn" type="submit">Sign Up</button>
+            <section class="copy-legal">
+                <p><span class="small">By clicking "Sign Up" you accept our <a href="#">Terms and Conditions of Use.</a></span></p>
+            </section>
+
+            <div class="switch-container">
+                <p>Already have an account? <a href="#" onclick="switchToLogin()">Sign in to your account</a></p>
+            </div>
+        </form>
+
+        <!-- Login Form (Initially Hidden) -->
+        <form id="login-form" style="display: none;">
+            <section class="copy">
+                <h2>Login</h2>
+            </section>
+
+            <div class="email-input-container">
+                <label>Email
+                    <input type="email" name="email">
+                </label>
+            </div>
+
+            <div class="password-input-container">
+                <label>Password
+                    <input type="password" name="password">
+                </label>
+            </div>
+
+            <button class="auth-btn" type="submit">Login</button>
+            <div class="switch-container">
+                <p>Don't have an account? <a href="#" onclick="switchToSignUp()">Create an account</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="auth.js"></script>
+</body>
 </html>
