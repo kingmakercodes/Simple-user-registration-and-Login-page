@@ -1,10 +1,10 @@
 import os
 from datetime import datetime, timezone, timedelta
-
 from flask import Blueprint, request, jsonify
 from app import database
 from app.models.models import User
 import jwt
+from werkzeug.security import check_password_hash
 
 auth_blueprint= Blueprint('auth', __name__)
 
@@ -49,14 +49,17 @@ def login():
         email= data.get('email')
         password= data.get('password')
 
-        user= User.query.filter_by(email=email).first()
+        # fetch specific attributes to reduce query time
+        user = User.query.with_entities(User.id, User.fullname, User.email, User.password_hash).filter_by(email=email).first()
 
         if not user:
-            return jsonify({'message':'Invalid email!'}), 401
-        if password!= user.password_hash:
-            return jsonify({'message':'Password incorrect!'}), 401
+            return jsonify({'message':'User does not exist!'}), 404
+        else:
+            valid_pass= check_password_hash(user.password_hash, password)
+            if not valid_pass:
+                return jsonify({'message':'Invalid password!'}), 401
 
-        # generate token for user login session
+        # generate token for user login session if user exists
         payload= {
             'user_id': user.id,
             'exp': datetime.now(timezone.utc)+ timedelta(hours=3)
