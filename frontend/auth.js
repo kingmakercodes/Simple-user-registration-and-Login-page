@@ -25,6 +25,7 @@ document.getElementById('signup-form').addEventListener('submit', async function
     if (!email) {
         alert('Email field empty!');
         return;
+        // pass in logic to handle checking of valid real world email addresses here
     }
     if (!password) {
         alert('Password field is empty!');
