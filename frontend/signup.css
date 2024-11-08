@@ -99,7 +99,7 @@ label{
 
 }
 
-.signup-btn{
+.auth-btn{
     display: block;
     width: 100%;
     background: var(--primary-blue);
@@ -113,13 +113,13 @@ label{
     letter-spacing: 2px;
 }
 
-.signup-container{
+.switch-container{
     font-weight: 600;
     font-size: .8rem;
     text-align: center;
 }
 
-.signup-btn:hover{
+.auth-btn:hover{
     background: #2c4893;
 }
 
