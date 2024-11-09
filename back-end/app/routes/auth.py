@@ -1,13 +1,17 @@
 import os
 from datetime import datetime, timezone, timedelta
 from flask import Blueprint, request, jsonify
+from app.utils.auth_utils import get_jwt_identity, jwt_required
 from app import database
 from app.models.models import User
 import jwt
 from werkzeug.security import check_password_hash
 
+
 auth_blueprint= Blueprint('auth', __name__)
 
+
+# homepage route
 @auth_blueprint.route('/', methods=['GET'])
 def home():
     return '<p>Welcome to the homepage</p>'
@@ -73,3 +77,21 @@ def login():
 
     except Exception as e:
         return jsonify({'error':f'An internal error occurred! {e}'})
+
+
+# user profile route
+@auth_blueprint.route('/profile', methods=['GET'])
+@jwt_required
+def fetch_user_profile():
+    user_id= get_jwt_identity()
+    user= User.query.get(user_id)
+
+    if not user:
+        return jsonify({'error':'User not found!'}), 404
+
+    user_details= {
+        'id': user.id,
+        'fullname': user.fullname,
+        'email': user.email
+    }
+    return jsonify(user_details), 400
