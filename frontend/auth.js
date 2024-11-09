@@ -19,7 +19,7 @@ document.getElementById('signup-form').addEventListener('submit', async function
 
     // Simple validation for signup forms
     if (!fullname) {
-        alert('Name fields are empty!');
+        alert('Name field is empty!');
         return;
     }
     if (!email) {
