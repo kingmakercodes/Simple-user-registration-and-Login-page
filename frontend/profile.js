@@ -14,6 +14,7 @@ async function fetchUserProfile(){
     try {
         const response= await fetch('http://127.0.0.1:5000/profile', {
             method: 'GET',
+            credentials: 'include', // include credentials (cookies)
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -24,7 +25,7 @@ async function fetchUserProfile(){
 
         if (response.ok){
 
-            // display the user profile info
+            // displays the user profile info. this preferably should be the user's dashboard html page or something
             profileInfo.innerHTML= `
                 <p><strong>ID:</strong> ${result.id}</p>
                 <p><strong>Full Name:</strong> ${result.fullname}</p>
@@ -32,7 +33,6 @@ async function fetchUserProfile(){
             `;
         } else {
             profileInfo.textContent= result.error || 'Failed to fetch profile data.';
-            localStorage.removeItem('token');
             window.location.href= 'auth.html';
         }
     } catch (err){
@@ -42,10 +42,16 @@ async function fetchUserProfile(){
 }
 
 // logout button function
-logoutBtn.addEventListener('click', ()=> {
-    localStorage.removeItem('token');
-    window.location.href= 'auth.html'                       // to rewrite login page separately and connect these to it
+logoutBtn.addEventListener('click',async ()=> {
+    // clear cookie on the backend and redirect to login page
+    await fetch('http://127.0.0.1:5000/logout', {
+        method: 'POST',
+        credentials: 'include'
+    });
+
+    window.location.href= 'auth.html'
     alert('Signed out successfully!')
 })
 
 // fetch user profile on page load
+fetchUserProfile();
