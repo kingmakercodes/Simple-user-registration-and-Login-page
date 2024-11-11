@@ -1,6 +1,6 @@
 import os
 from datetime import datetime, timezone, timedelta
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, make_response
 from app.utils.auth_utils import get_jwt_identity, jwt_required
 from app import database
 from app.models.models import User
@@ -75,19 +75,44 @@ def login():
         }
         token= jwt.encode(payload, os.getenv('JWT_SECRET_KEY'), algorithm='HS256')
 
-        return jsonify({
-                'token':token,
-                'message':'User logged in successfully!',
-        }), 200
+        # create response and set the cookie
+        response= make_response(jsonify({
+            'message':'User logged in successfully!',
+            'token': token,
+        }))
+        response.set_cookie(
+            'token',
+            token,
+            httponly= True,
+            secure= True,
+            samesite= 'Strict'
+        )
+
+        return response, 200
 
     except Exception as e:
         return jsonify({'error':f'An internal error occurred! {e}'}), 500
 
 
+# session logout and cookie clearing
+@auth_blueprint.route('/logout', methods=['POST'])
+def logout():
+    response= make_response(jsonify({'message':'You have been logged out!'}))
+    response.set_cookie(
+        'token',
+        '',
+        httponly=True,
+        expires=0,
+        secure=True,
+        samesite='Strict'
+    )
+    return response, 200
+
 # user profile route
 @auth_blueprint.route('/profile', methods=['GET'])
 @jwt_required
 def fetch_user_profile():
+
     user_id= get_jwt_identity()
     user= User.query.get(user_id)
 
