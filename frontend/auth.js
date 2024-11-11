@@ -82,7 +82,20 @@ document.getElementById('login-form').addEventListener('submit', async function 
         });
 
         const result = await response.json();
-        alert(result.message || result.error);
+
+        if (response.ok) {
+            const token= result.token;
+
+            // store the JWT token in sessionStorage or localStorage
+            localStorage.setItem('token', token);
+
+            // redirect user to their profile page
+            window.location.href= 'profile.html';
+        } else {
+
+            // display an error message if != response.ok
+            alert(result.error)
+        }
 
     } catch (err) {
         console.error('Error:', err);

@@ -65,7 +65,7 @@ def login():
         else:
             valid_pass= check_password_hash(user.password_hash, password)
             if not valid_pass:
-                return jsonify({'message':'Invalid password!'}), 401
+                return jsonify({'error':'Invalid password!'}), 401
 
         # generate token for user login session if user exists
         payload= {
