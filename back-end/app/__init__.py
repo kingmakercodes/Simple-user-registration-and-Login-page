@@ -15,7 +15,7 @@ def create_app():
 
     # initialize global instances
     database.init_app(app)
-    CORS(app)
+    CORS(app, resources={r"/*":{"origins": "http://localhost:63343"}}, supports_credentials=True) # CORS configurations to allow use of credentials for using cookies in session
 
     # register blueprints
     from app.routes.auth import auth_blueprint
