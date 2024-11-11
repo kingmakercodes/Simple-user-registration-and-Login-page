@@ -90,6 +90,7 @@ document.getElementById('login-form').addEventListener('submit', async function 
             localStorage.setItem('token', token);
 
             // redirect user to their profile page
+            alert('Login successful!')
             window.location.href= 'profile.html';
         } else {
 

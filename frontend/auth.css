@@ -75,6 +75,10 @@ a:hover{
     width: 328px;
 }
 
+form#login-form{
+    width: 350px;
+}
+
 form input[name='fullname'],
 form input[name='email'],
 form input[name='password'] {
