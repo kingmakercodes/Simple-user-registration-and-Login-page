@@ -40,6 +40,10 @@ def register():
         return jsonify({'message':'New user created successfully!'}), 201
 
     except Exception as e:
+
+        # session rollback to avoid database locking issues
+        database.session.rollback()
+
         print(f'Error: {e}')
         return jsonify({'error':'An internal error occurred.'}), 500
 
@@ -65,6 +69,7 @@ def login():
 
         # generate token for user login session if user exists
         payload= {
+            'sub':user.id,
             'user_id': user.id,
             'exp': datetime.now(timezone.utc)+ timedelta(hours=3)
         }
@@ -73,10 +78,10 @@ def login():
         return jsonify({
                 'token':token,
                 'message':'User logged in successfully!',
-        }), 201
+        }), 200
 
     except Exception as e:
-        return jsonify({'error':f'An internal error occurred! {e}'})
+        return jsonify({'error':f'An internal error occurred! {e}'}), 500
 
 
 # user profile route
@@ -94,4 +99,4 @@ def fetch_user_profile():
         'fullname': user.fullname,
         'email': user.email
     }
-    return jsonify(user_details), 400
+    return jsonify(user_details), 200
