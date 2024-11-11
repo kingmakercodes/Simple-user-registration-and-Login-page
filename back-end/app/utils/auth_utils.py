@@ -31,6 +31,10 @@ def jwt_required(f):
         except jwt.InvalidTokenError:
             return jsonify({'message':'Invalid token!'}), 401
 
+        except Exception as e:
+            print(f'Unexpected error: {e}')
+            return jsonify({'error':'An internal server error occurred.'}), 500
+
         return f(*args, **kwargs)
 
     return decorated
